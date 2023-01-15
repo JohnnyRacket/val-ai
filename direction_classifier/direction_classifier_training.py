@@ -19,11 +19,11 @@ in_channel = 3
 num_classes = 4
 learning_rate = 1e-3
 momentum = 0.9
-batch_size = 32
-num_epochs = 500
+batch_size = 16
+num_epochs = 100
 
 
-trainset, testset = torch.utils.data.random_split(dataset, [400,171])
+trainset, testset = torch.utils.data.random_split(dataset, [450,121])
 trainloader = torch.utils.data.DataLoader(dataset=trainset, batch_size=batch_size, shuffle=True)
 testloader = torch.utils.data.DataLoader(dataset=testset, batch_size=batch_size, shuffle=True) 
 
@@ -39,8 +39,8 @@ optimizer = optim.SGD(directionClassifierNet.parameters(), lr=learning_rate, mom
 
 for epoch in range(num_epochs):  # loop over the dataset multiple times
     
-    if (epoch % 100 == 0):
-       print(epoch)
+
+    print(epoch)
 
     running_loss = 0.0
     for i, (data, targets) in enumerate(trainloader, 0):
@@ -59,8 +59,8 @@ for epoch in range(num_epochs):  # loop over the dataset multiple times
 
         # print statistics
         running_loss += loss.item()
-        if i % 2000 == 1999:    # print every 2000 mini-batches
-            print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')
+        if i % 10 == 9:    # print every 2000 mini-batches
+            print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 10:.3f}')
             running_loss = 0.0
 
 print('Finished Training')

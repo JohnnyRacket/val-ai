@@ -27,6 +27,6 @@ os.chdir(r'C:\Users\John\Videos')
 imgs = load_images_from_folder(r'picsv22')
 
 for index, img in enumerate(imgs):
-    # img = resize_and_grayscale_img(img)
+    img = resize_and_grayscale_img(img)
     imwrite((r'picsv2-3\img' + str(index + 1) + '.jpg'), img)
 

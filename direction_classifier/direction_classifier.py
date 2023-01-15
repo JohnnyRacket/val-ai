@@ -12,7 +12,9 @@ net.to(device)
 net.load_state_dict(torch.load(PATH))
 net.eval()   
 
-transform = transforms.ToTensor()
+transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 def classify_direction(img):
     tensor = transform(img)
