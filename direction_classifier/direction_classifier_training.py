@@ -3,6 +3,8 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 import torch.optim as optim
+import numpy as np
+import matplotlib.pyplot as plt
 
 from DirectionClassifierDataset import DirectionClassifierDataset
 from DirectionClassifierNet import DirectionClassifierNet
@@ -11,19 +13,19 @@ from DirectionClassifierNet import DirectionClassifierNet
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print(device)
 
-dataset = DirectionClassifierDataset(csv_file='direction_classifier_labels_2.csv', root_dir = 'direction_classifier_imgs', transform = transforms.Compose(
+dataset = DirectionClassifierDataset(csv_file='direction_classifier_labels_2.csv', root_dir = 'direction_classifier_imgs_pre', transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]))
 print(len(dataset))
-in_channel = 3
+in_channel = 1
 num_classes = 4
 learning_rate = 1e-3
 momentum = 0.9
-batch_size = 16
-num_epochs = 100
+batch_size = 32
+num_epochs = 1000
 
 
-trainset, testset = torch.utils.data.random_split(dataset, [450,121])
+trainset, testset = torch.utils.data.random_split(dataset, [320, 57])
 trainloader = torch.utils.data.DataLoader(dataset=trainset, batch_size=batch_size, shuffle=True)
 testloader = torch.utils.data.DataLoader(dataset=testset, batch_size=batch_size, shuffle=True) 
 
@@ -33,13 +35,15 @@ classes = ('nothing', 'left', 'right', 'center')
 directionClassifierNet = DirectionClassifierNet()
 directionClassifierNet.to(device)
 
+# cross entropy + softmax = mutually exclusive
+# 
+
 # loss function
 criterion = torch.nn.CrossEntropyLoss()
 optimizer = optim.SGD(directionClassifierNet.parameters(), lr=learning_rate, momentum=momentum)
 
 for epoch in range(num_epochs):  # loop over the dataset multiple times
     
-
     print(epoch)
 
     running_loss = 0.0

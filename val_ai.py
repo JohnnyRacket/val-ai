@@ -3,7 +3,7 @@ import random
 import numpy as np
 import NeuralNetwork
 import GameState
-from resize_and_grayscale import resize_and_grayscale_img
+from filter_images import resize_and_grayscale_img
 
 print(torch.cuda.is_available())
 
